@@ -6,39 +6,58 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Logo clothes shop</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700,900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <div class="logo-container">
-            logo
-        </div>
-        <div class="nav-link_desktop">
-            <a class="nav-link__link" href="">about</a>
-            <a class="nav-link__link" href="">shop</a>
-            <a class="nav-link__link" href="">contacts</a>
-        </div>
-        <div class="nav-link_mobile">
-            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M3 8V6H21V8H3ZM3 13H21V11H3V13ZM3 18H21V16H3V18Z" fill="black" fill-opacity="1"/>
-            </svg>                    
-        </div>
-    </header>
-    <section class="presentation">
-        <div class="introduction">
-            <h1 class="introduction__title">new collections</h1>
-            <p class="introduction__text">Now based in Mexico City, the line uses natural fiber fabrics to create modern minimalistic silouettes inspired by muted landscapes and soft textures</p>
-            <a href="" class="introduction__link">view</a>
-        </div>
-        <div class="cover">
-            <img class="cover__image" src="./cover-image.jpg" alt="">
-        </div>
-    </section>
-    <h1 class="images__title">gallery</h1>
-    <section class="images">
-        <img src="./images/img_1.jpg" alt="" class="images__image">
-        <img src="./images/img_2.jpg" alt="" class="images__image">
-        <img src="./images/img_3.jpg" alt="" class="images__image">
-    </section>
+    <div id="app">
+        <header class="header">
+            <div class="logo-container">
+                logo
+            </div>
+            <div class="nav-link_desktop">
+                <a class="nav-link__link" :href="nav_link[0]">{{language[set].nav_link[0]}}</a>
+                <a class="nav-link__link" :href="nav_link[1]">{{language[set].nav_link[1]}}</a>
+                <a class="nav-link__link" :href="nav_link[2]">{{language[set].nav_link[2]}}</a>
+            </div>
+            <div class="nav-link_mobile"  @click="menu_button_click()">
+                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" v-if="!menu_open">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3 8V6H21V8H3ZM3 13H21V11H3V13ZM3 18H21V16H3V18Z" fill="black" fill-opacity="1"/>
+                </svg>
+                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" v-if="menu_open">
+                    <path d="M17.835 3.87001L16.055 2.10001L6.16504 12L16.065 21.9L17.835 20.13L9.70504 12L17.835 3.87001Z" fill="black" fill-opacity="1"/>
+                </svg>                        
+            </div>
+        </header>
+        <section class="menu__background_mobile" v-if="menu_open"></section>
+        <transition name="fade">
+            <section class="menu__language_mobile"  v-if="language_open">
+                <a href="" class="language__button nav-link__link" @click.prevent="set = 1" :class="{menu__link_active : set == 1}">русский</a>
+                <a href="" class="language__button nav-link__link" @click.prevent="set = 0" :class="{menu__link_active : set == 0}">english</a>
+            </section>
+            <section class="menu_mobile"  v-if="menu_open">
+                <a class="nav-link__link" :href="nav_link[0]" @click.prevent="language_open = true">{{language[set].nav_link[0]}}</a>
+                <a class="nav-link__link" :href="nav_link[1]">{{language[set].nav_link[1]}}</a>
+                <a class="nav-link__link" :href="nav_link[2]">{{language[set].nav_link[2]}}</a>
+            </section>
+        </transition>
+        <section class="presentation">
+            <div class="introduction">
+                <h1 class="introduction__title">{{language[set].introduction.title}}</h1>
+                <p class="introduction__text">{{language[set].introduction.text}}</p>
+                <a href="https://www.asos.com/ru/men/" class="introduction__link">{{language[set].introduction.button}}</a>
+            </div>
+            <div class="cover">
+                <img class="cover__image" src="./cover-image.jpg" alt="">
+            </div>
+        </section>
+        <h1 class="images__title">{{language[set].image_title}}</h1>
+        <section class="images">
+            <img src="./images/img_1.jpg" alt="" class="images__image">
+            <img src="./images/img_2.jpg" alt="" class="images__image">
+            <img src="./images/img_3.jpg" alt="" class="images__image">
+        </section>
+    </div>
+    <script src="./script.js"></script>
 </body>
 </html>
